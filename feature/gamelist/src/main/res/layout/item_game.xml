@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Seminario.Card"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/margen_normal"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/margen_mediano">
+
+        <ImageView
+            android:id="@+id/iv_game_image"
+            android:layout_width="@dimen/ancho_imagen_juego"
+            android:layout_height="@dimen/altura_item_juego"
+            android:background="@color/shimmer_base"
+            android:contentDescription="Imagen del juego"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/ic_error" />
+
+        <TextView
+            android:id="@+id/tv_game_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margen_mediano"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+            android:textSize="@dimen/texto_mediano"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_game_image"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="The Witcher 3: Wild Hunt" />
+
+        <TextView
+            android:id="@+id/tv_game_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margen_mediano"
+            android:layout_marginTop="@dimen/margen_pequeno"
+            android:background="@drawable/bg_rating"
+            android:paddingHorizontal="@dimen/margen_normal"
+            android:paddingVertical="@dimen/margen_pequeno"
+            android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+            android:textColor="@color/white"
+            android:textSize="@dimen/texto_pequeno"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/iv_game_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_game_name"
+            tools:text="★ 4.5" />
+
+        <TextView
+            android:id="@+id/tv_game_genres"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margen_mediano"
+            android:layout_marginTop="@dimen/margen_pequeno"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textAppearance="@style/TextAppearance.Seminario.Subtitulo"
+            android:textSize="@dimen/texto_pequeno"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_game_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_game_rating"
+            tools:text="RPG, Action, Adventure" />
+
+        <TextView
+            android:id="@+id/tv_game_release_date"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margen_mediano"
+            android:layout_marginTop="@dimen/margen_pequeno"
+            android:textAppearance="@style/TextAppearance.Seminario.Subtitulo"
+            android:textSize="@dimen/texto_pequeno"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/iv_game_image"
+            app:layout_constraintTop_toBottomOf="@id/tv_game_genres"
+            tools:text="Lanzamiento: 2015-05-19" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

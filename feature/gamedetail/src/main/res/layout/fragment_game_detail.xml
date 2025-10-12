@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_light"
+    tools:context="ar.edu.unicen.seminario.feature.gamedetail.presentation.GameDetailFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            style="@style/Widget.Seminario.Toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="@dimen/elevacion_card"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:title="Detalle del Juego" />
+
+        <!-- Estado de carga -->
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/margen_grande"
+            android:indeterminateTint="@color/primary_blue"
+            android:visibility="gone" />
+
+        <!-- Estado de error -->
+        <include
+            android:id="@+id/error_layout"
+            layout="@layout/layout_error_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <!-- Contenido principal -->
+        <LinearLayout
+            android:id="@+id/content_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <!-- Imagen principal del juego -->
+            <ImageView
+                android:id="@+id/iv_game_image"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/altura_imagen_detalle"
+                android:background="@color/shimmer_base"
+                android:contentDescription="Imagen del juego"
+                android:scaleType="centerCrop" />
+
+            <!-- Información del juego -->
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/margen_mediano">
+
+                <!-- Nombre del juego -->
+                <TextView
+                    android:id="@+id/tv_game_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_encabezado"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:text="The Witcher 3: Wild Hunt" />
+
+                <!-- Rating -->
+                <TextView
+                    android:id="@+id/tv_game_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_normal"
+                    android:background="@drawable/bg_rating"
+                    android:paddingHorizontal="@dimen/margen_normal"
+                    android:paddingVertical="@dimen/margen_pequeno"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_game_name"
+                    tools:text="★ 4.5" />
+
+                <!-- Fecha de lanzamiento -->
+                <TextView
+                    android:id="@+id/tv_release_date_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_mediano"
+                    android:text="@string/fecha_lanzamiento"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_mediano"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_game_rating" />
+
+                <TextView
+                    android:id="@+id/tv_release_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margen_normal"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_release_date_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_release_date_label"
+                    tools:text="19 de mayo, 2015" />
+
+                <!-- Géneros -->
+                <TextView
+                    android:id="@+id/tv_genres_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_normal"
+                    android:text="@string/generos"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_mediano"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_release_date_label" />
+
+                <TextView
+                    android:id="@+id/tv_genres"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margen_normal"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_genres_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_genres_label"
+                    tools:text="RPG, Action, Adventure" />
+
+                <!-- Plataformas -->
+                <TextView
+                    android:id="@+id/tv_platforms_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_normal"
+                    android:text="Plataformas:"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_mediano"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_genres_label" />
+
+                <TextView
+                    android:id="@+id/tv_platforms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margen_normal"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_platforms_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_platforms_label"
+                    tools:text="PC, PlayStation 4, Xbox One" />
+
+                <!-- Publishers -->
+                <TextView
+                    android:id="@+id/tv_publishers_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_normal"
+                    android:text="Publishers:"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_mediano"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_platforms_label" />
+
+                <TextView
+                    android:id="@+id/tv_publishers"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/margen_normal"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/tv_publishers_label"
+                    app:layout_constraintTop_toTopOf="@id/tv_publishers_label"
+                    tools:text="CD Projekt RED" />
+
+                <!-- Descripción -->
+                <TextView
+                    android:id="@+id/tv_description_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_mediano"
+                    android:text="@string/resumen"
+                    android:textAppearance="@style/TextAppearance.Seminario.Titulo"
+                    android:textSize="@dimen/texto_grande"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_publishers_label" />
+
+                <TextView
+                    android:id="@+id/tv_description"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margen_normal"
+                    android:lineSpacingExtra="4dp"
+                    android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_description_label"
+                    tools:text="The Witcher 3: Wild Hunt es un juego de rol de acción en un mundo abierto desarrollado por CD Projekt RED..." />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

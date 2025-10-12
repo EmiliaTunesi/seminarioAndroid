@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/gameListFragment">
+
+    <!-- Pantalla principal de lista de juegos -->
+    <fragment
+        android:id="@+id/gameListFragment"
+        android:name="ar.edu.unicen.seminario.feature.gamelist.presentation.GameListFragment"
+        android:label="@string/app_name">
+
+        <action
+            android:id="@+id/action_gameList_to_filters"
+            app:destination="@id/filtersFragment" />
+
+        <action
+            android:id="@+id/action_gameList_to_gameDetail"
+            app:destination="@id/gameDetailFragment" />
+
+        <argument
+            android:name="filters"
+            app:argType="ar.edu.unicen.seminario.core.data.model.domain.GameFilters"
+            app:nullable="true" />
+
+    </fragment>
+
+    <!-- Pantalla de filtros -->
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="ar.edu.unicen.seminario.feature.filters.presentation.FiltersFragment"
+        android:label="@string/filtros">
+
+        <action
+            android:id="@+id/action_filters_to_gameList"
+            app:destination="@id/gameListFragment"
+            app:popUpTo="@id/gameListFragment"
+            app:popUpToInclusive="false" />
+
+        <argument
+            android:name="filters"
+            app:argType="ar.edu.unicen.seminario.core.data.model.domain.GameFilters"
+            app:nullable="true" />
+
+    </fragment>
+
+    <!-- Pantalla de detalle de juego -->
+    <fragment
+        android:id="@+id/gameDetailFragment"
+        android:name="ar.edu.unicen.seminario.feature.gamedetail.presentation.GameDetailFragment"
+        android:label="Detalle del Juego">
+
+        <argument
+            android:name="gameId"
+            app:argType="integer" />
+
+    </fragment>
+
+</navigation>

@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/gameListFragment">
 
     <!-- Pantalla principal de lista de juegos -->
     <fragment
         android:id="@+id/gameListFragment"
-        android:name="ar.edu.unicen.seminario.feature.gamelist.presentation.GameListFragment"
-        android:label="@string/app_name">
-
-        <action
-            android:id="@+id/action_gameList_to_filters"
-            app:destination="@id/filtersFragment" />
+        android:name="ar.edu.unicen.seminario.GameListFragment"
+        android:label="@string/app_name"
+        tools:layout="@layout/fragment_game_list">
 
         <action
             android:id="@+id/action_gameList_to_gameDetail"
-            app:destination="@id/gameDetailFragment" />
-
-        <argument
-            android:name="filters"
-            app:argType="ar.edu.unicen.seminario.core.data.model.domain.GameFilters"
-            app:nullable="true" />
-
-    </fragment>
-
-    <!-- Pantalla de filtros -->
-    <fragment
-        android:id="@+id/filtersFragment"
-        android:name="ar.edu.unicen.seminario.feature.filters.presentation.FiltersFragment"
-        android:label="@string/filtros">
+            app:destination="@id/gameDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
         <action
-            android:id="@+id/action_filters_to_gameList"
-            app:destination="@id/gameListFragment"
-            app:popUpTo="@id/gameListFragment"
-            app:popUpToInclusive="false" />
-
-        <argument
-            android:name="filters"
-            app:argType="ar.edu.unicen.seminario.core.data.model.domain.GameFilters"
-            app:nullable="true" />
-
+            android:id="@+id/action_gameList_to_filters"
+            app:destination="@id/filtersFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_down"
+            app:popEnterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_up" />
     </fragment>
 
     <!-- Pantalla de detalle de juego -->
     <fragment
         android:id="@+id/gameDetailFragment"
         android:name="ar.edu.unicen.seminario.feature.gamedetail.presentation.GameDetailFragment"
-        android:label="Detalle del Juego">
+        android:label="Game Detail"
+        tools:layout="@layout/fragment_game_detail">
 
         <argument
             android:name="gameId"
             app:argType="integer" />
+    </fragment>
 
+    <!-- Pantalla de filtros -->
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="ar.edu.unicen.seminario.feature.filters.presentation.FiltersFragment"
+        android:label="Filters"
+        tools:layout="@layout/fragment_filters">
+        <argument
+            android:name="filters"
+            app:argType="ar.edu.unicen.seminario.core.data.model.domain.GameFilters"
+            app:nullable="true" />
+        <action
+            android:id="@+id/action_filtersFragment_to_gameListFragment"
+            app:destination="@id/gameListFragment" />
     </fragment>
 
 </navigation>

@@ -40,20 +40,21 @@ class StoreFilterAdapter(
         private val binding: ItemFilterCheckboxBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.checkbox.setOnCheckedChangeListener { _, _ ->
-                val position = bindingAdapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val store = getItem(position)
-                    onStoreToggle(store.id)
-                }
-            }
-        }
-
         fun bind(store: Store, isSelected: Boolean) {
             binding.apply {
-                checkbox.text = store.name
+                // Quitar el listener antes de modificar el estado
+                checkbox.setOnCheckedChangeListener(null)
+                tvFilterName.text = store.name
                 checkbox.isChecked = isSelected
+                checkbox.text = ""
+                // Volver a setear el listener
+                checkbox.setOnCheckedChangeListener { _, _ ->
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val store = getItem(position)
+                        onStoreToggle(store.id)
+                    }
+                }
             }
         }
     }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema base para componentes UI -->
+    <style name="Theme.Core.UI" parent="Theme.Material3.DayNight">
+        <!-- Colores primarios -->
+        <item name="colorPrimary">@color/primary_blue</item>
+        <item name="colorPrimaryVariant">@color/primary_blue_dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+
+        <!-- Colores secundarios -->
+        <item name="colorSecondary">@color/accent_orange</item>
+        <item name="colorSecondaryVariant">@color/accent_orange_dark</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- Colores de superficie -->
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorSurfaceVariant">@color/background_light</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+
+        <!-- Colores de fondo -->
+        <item name="android:colorBackground">@color/background_light</item>
+        <item name="colorOnBackground">@color/text_primary</item>
+
+        <!-- Colores de error -->
+        <item name="colorError">@color/error</item>
+        <item name="colorOnError">@color/on_error</item>
+    </style>
+
+    <!-- Estilo para botones -->
+    <style name="Widget.Core.Button" parent="Widget.Material3.Button">
+        <item name="android:minHeight">@dimen/button_height</item>
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="cornerRadius">@dimen/corner_radius_medium</item>
+    </style>
+
+    <!-- Estilo para cards -->
+    <style name="Widget.Core.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardCornerRadius">@dimen/corner_radius_medium</item>
+        <item name="cardElevation">@dimen/card_elevation</item>
+        <item name="contentPadding">@dimen/padding_medium</item>
+    </style>
+
+    <!-- Estilo para texto -->
+    <style name="TextAppearance.Core.Headline" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:textSize">@dimen/text_size_heading</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.Core.Body" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textSize">@dimen/text_size_medium</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+
+    <style name="TextAppearance.Core.Caption" parent="TextAppearance.Material3.BodySmall">
+        <item name="android:textSize">@dimen/text_size_small</item>
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+</resources>
+

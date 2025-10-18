@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/gameListFragment">
+
+    <fragment
+        android:id="@+id/gameListFragment"
+        android:name="ar.edu.unicen.seminario.feature.gamelist.presentation.GameListFragment"
+        android:label="Lista de Juegos">
+        <action
+            android:id="@+id/action_gameListFragment_to_filtersFragment"
+            app:destination="@id/filtersFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/filtersFragment"
+        android:name="ar.edu.unicen.seminario.feature.filters.presentation.FiltersFragment"
+        android:label="Filtros" />
+
+</navigation>
+

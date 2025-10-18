@@ -33,24 +33,22 @@ class GamesPagingSource(
         return try {
             val page = params.key ?: STARTING_PAGE_INDEX
 
-            // Preparar parámetros de filtrado para la API
             val platformsParam = if (filters.platforms.isNotEmpty()) {
                 filters.platforms.joinToString(",")
             } else null
-
             val genresParam = if (filters.genres.isNotEmpty()) {
                 filters.genres.joinToString(",")
             } else null
-
             val publishersParam = if (filters.publishers.isNotEmpty()) {
                 filters.publishers.joinToString(",")
             } else null
-
             val storesParam = if (filters.stores.isNotEmpty()) {
                 filters.stores.joinToString(",")
             } else null
 
-            // Realizar la llamada a la API RAWG
+            // LOG: parámetros enviados a la API
+            android.util.Log.d("GamesPagingSource", "Llamando API RAWG: page=$page, platforms=$platformsParam, genres=$genresParam, publishers=$publishersParam, stores=$storesParam, ordering=${filters.ordering}")
+
             val response = apiService.getGames(
                 apiKey = apiKey,
                 page = page,
@@ -62,27 +60,30 @@ class GamesPagingSource(
                 ordering = filters.ordering
             )
 
+            android.util.Log.d("GamesPagingSource", "Respuesta API: isSuccessful=${response.isSuccessful}, code=${response.code()}, body=${response.body()}")
+
             if (response.isSuccessful) {
                 val data = response.body()
                 val games = data?.results?.let { mapper.mapToGameList(it) } ?: emptyList()
+                android.util.Log.d("GamesPagingSource", "Cantidad de juegos mapeados: ${games.size}")
 
-                // Retornar LoadResult.Page con los datos y claves de paginación
                 LoadResult.Page(
                     data = games,
                     prevKey = if (page == STARTING_PAGE_INDEX) null else page - 1,
                     nextKey = if (data?.next == null) null else page + 1
                 )
             } else {
+                android.util.Log.e("GamesPagingSource", "Error en respuesta API: ${response.errorBody()?.string()}")
                 LoadResult.Error(HttpException(response))
             }
         } catch (exception: IOException) {
-            // Error de conectividad de red
+            android.util.Log.e("GamesPagingSource", "IOException: ${exception.message}")
             LoadResult.Error(exception)
         } catch (exception: HttpException) {
-            // Error HTTP (4xx, 5xx)
+            android.util.Log.e("GamesPagingSource", "HttpException: ${exception.message}")
             LoadResult.Error(exception)
         } catch (exception: Exception) {
-            // Cualquier otro error inesperado
+            android.util.Log.e("GamesPagingSource", "Exception: ${exception.message}")
             LoadResult.Error(exception)
         }
     }

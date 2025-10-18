@@ -52,8 +52,19 @@ class GenreFilterAdapter(
 
         fun bind(genre: Genre, isSelected: Boolean) {
             binding.apply {
-                checkbox.text = genre.name
+                // Quitar el listener antes de modificar el estado
+                checkbox.setOnCheckedChangeListener(null)
+                tvFilterName.text = genre.name
                 checkbox.isChecked = isSelected
+                checkbox.text = ""
+                // Volver a setear el listener
+                checkbox.setOnCheckedChangeListener { _, _ ->
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val genre = getItem(position)
+                        onGenreToggle(genre.id)
+                    }
+                }
             }
         }
     }

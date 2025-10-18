@@ -8,36 +8,27 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Estados de la UI para los filtros
- */
-sealed class FiltersUiState {
-    object Loading : FiltersUiState()
-    data class Success(
-        val platforms: List<Platform>,
-        val genres: List<Genre>,
-        val publishers: List<Publisher>,
-        val stores: List<Store>
-    ) : FiltersUiState()
-    data class Error(val message: String) : FiltersUiState()
-}
+data class FilterSectionState<T>(
+    val loading: Boolean = false,
+    val error: String? = null,
+    val data: List<T> = emptyList()
+)
 
-/**
- * ViewModel que maneja la lógica de la pantalla de filtros
- */
 @HiltViewModel
 class FiltersViewModel @Inject constructor(
     private val gameRepository: GameRepository
 ) : ViewModel() {
+    val platformsState = MutableStateFlow(FilterSectionState<Platform>(loading = true))
+    val genresState = MutableStateFlow(FilterSectionState<Genre>(loading = true))
+    val publishersState = MutableStateFlow(FilterSectionState<Publisher>(loading = true))
+    val storesState = MutableStateFlow(FilterSectionState<Store>(loading = true))
 
-    // Estado de la UI
-    private val _uiState = MutableStateFlow<FiltersUiState>(FiltersUiState.Loading)
-    val uiState: StateFlow<FiltersUiState> = _uiState.asStateFlow()
-
-    // Filtros seleccionados actualmente
     private val _selectedPlatforms = MutableStateFlow<Set<Int>>(emptySet())
     val selectedPlatforms: StateFlow<Set<Int>> = _selectedPlatforms.asStateFlow()
 
@@ -50,78 +41,84 @@ class FiltersViewModel @Inject constructor(
     private val _selectedStores = MutableStateFlow<Set<Int>>(emptySet())
     val selectedStores: StateFlow<Set<Int>> = _selectedStores.asStateFlow()
 
-    private val _selectedOrdering = MutableStateFlow(OrderingType.ADDED_DESC)
+    private val _selectedOrdering = MutableStateFlow(OrderingType.ADDED)
     val selectedOrdering: StateFlow<OrderingType> = _selectedOrdering.asStateFlow()
+    val hasActiveFiltersFlow: StateFlow<Boolean> = combine(
+        _selectedPlatforms,
+        _selectedGenres,
+        _selectedPublishers,
+        _selectedStores,
+        _selectedOrdering
+    ) { platforms, genres, publishers, stores, ordering ->
+        platforms.isNotEmpty() || genres.isNotEmpty() || publishers.isNotEmpty() || stores.isNotEmpty() || ordering != OrderingType.ADDED
+    }.stateIn(viewModelScope, SharingStarted.Eagerly, false)
 
-    init {
-        loadFiltersData()
-    }
-
-    /**
-     * Carga todos los datos de filtros desde la API
-     */
-    fun loadFiltersData() {
+    fun loadPlatforms() {
         viewModelScope.launch {
-            _uiState.value = FiltersUiState.Loading
-
-            try {
-                // Cargar todas las listas de filtros en paralelo
-                val platformsResult = gameRepository.getPlatforms()
-                val genresResult = gameRepository.getGenres()
-                val publishersResult = gameRepository.getPublishers()
-                val storesResult = gameRepository.getStores()
-
-                // Verificar que todas las llamadas fueron exitosas
-                val platforms = platformsResult.getOrNull()
-                val genres = genresResult.getOrNull()
-                val publishers = publishersResult.getOrNull()
-                val stores = storesResult.getOrNull()
-
-                if (platforms != null && genres != null && publishers != null && stores != null) {
-                    _uiState.value = FiltersUiState.Success(
-                        platforms = platforms,
-                        genres = genres,
-                        publishers = publishers,
-                        stores = stores
-                    )
-                } else {
-                    // Determinar qué error mostrar
-                    val error = platformsResult.exceptionOrNull()
-                        ?: genresResult.exceptionOrNull()
-                        ?: publishersResult.exceptionOrNull()
-                        ?: storesResult.exceptionOrNull()
-                        ?: Exception("Error desconocido al cargar filtros")
-
-                    _uiState.value = FiltersUiState.Error(
-                        message = getErrorMessage(error)
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.value = FiltersUiState.Error(
-                    message = getErrorMessage(e)
-                )
-            }
+            platformsState.value = FilterSectionState(loading = true)
+            val result = gameRepository.getPlatforms()
+            platformsState.value = result.fold(
+                onSuccess = { FilterSectionState(data = it) },
+                onFailure = { FilterSectionState(error = getErrorMessage(it)) }
+            )
         }
     }
 
-    /**
-     * Establece los filtros iniciales (útil cuando se viene de una búsqueda con filtros previos)
-     */
+    fun loadGenres() {
+        viewModelScope.launch {
+            genresState.value = FilterSectionState(loading = true)
+            val result = gameRepository.getGenres()
+            genresState.value = result.fold(
+                onSuccess = { FilterSectionState(data = it) },
+                onFailure = { FilterSectionState(error = getErrorMessage(it)) }
+            )
+        }
+    }
+
+    fun loadPublishers() {
+        viewModelScope.launch {
+            publishersState.value = FilterSectionState(loading = true)
+            val result = gameRepository.getPublishers()
+            publishersState.value = result.fold(
+                onSuccess = { FilterSectionState(data = it) },
+                onFailure = { FilterSectionState(error = getErrorMessage(it)) }
+            )
+        }
+    }
+
+    fun loadStores() {
+        viewModelScope.launch {
+            storesState.value = FilterSectionState(loading = true)
+            val result = gameRepository.getStores()
+            storesState.value = result.fold(
+                onSuccess = { FilterSectionState(data = it) },
+                onFailure = { FilterSectionState(error = getErrorMessage(it)) }
+            )
+        }
+    }
+
+    fun loadAllFilters() {
+        loadPlatforms()
+        loadGenres()
+        loadPublishers()
+        loadStores()
+    }
+
+    init {
+        loadAllFilters()
+    }
+
     fun setInitialFilters(filters: GameFilters) {
         _selectedPlatforms.value = filters.platforms.toSet()
         _selectedGenres.value = filters.genres.toSet()
         _selectedPublishers.value = filters.publishers.toSet()
         _selectedStores.value = filters.stores.toSet()
 
-        // Encontrar el tipo de ordenamiento correspondiente
         val orderingType = OrderingType.values().find { it.value == filters.ordering }
-            ?: OrderingType.ADDED_DESC
+            ?: OrderingType.ADDED
         _selectedOrdering.value = orderingType
     }
 
-    /**
-     * Alterna la selección de una plataforma
-     */
     fun togglePlatform(platformId: Int) {
         val current = _selectedPlatforms.value.toMutableSet()
         if (current.contains(platformId)) {
@@ -132,9 +129,6 @@ class FiltersViewModel @Inject constructor(
         _selectedPlatforms.value = current
     }
 
-    /**
-     * Alterna la selección de un género
-     */
     fun toggleGenre(genreId: Int) {
         val current = _selectedGenres.value.toMutableSet()
         if (current.contains(genreId)) {
@@ -145,9 +139,6 @@ class FiltersViewModel @Inject constructor(
         _selectedGenres.value = current
     }
 
-    /**
-     * Alterna la selección de un publisher
-     */
     fun togglePublisher(publisherId: Int) {
         val current = _selectedPublishers.value.toMutableSet()
         if (current.contains(publisherId)) {
@@ -158,9 +149,6 @@ class FiltersViewModel @Inject constructor(
         _selectedPublishers.value = current
     }
 
-    /**
-     * Alterna la selección de una tienda
-     */
     fun toggleStore(storeId: Int) {
         val current = _selectedStores.value.toMutableSet()
         if (current.contains(storeId)) {
@@ -171,27 +159,18 @@ class FiltersViewModel @Inject constructor(
         _selectedStores.value = current
     }
 
-    /**
-     * Establece el tipo de ordenamiento
-     */
     fun setOrdering(orderingType: OrderingType) {
         _selectedOrdering.value = orderingType
     }
 
-    /**
-     * Limpia todos los filtros seleccionados
-     */
     fun clearAllFilters() {
         _selectedPlatforms.value = emptySet()
         _selectedGenres.value = emptySet()
         _selectedPublishers.value = emptySet()
         _selectedStores.value = emptySet()
-        _selectedOrdering.value = OrderingType.ADDED_DESC
+        _selectedOrdering.value = OrderingType.ADDED
     }
 
-    /**
-     * Genera el objeto GameFilters con las selecciones actuales
-     */
     fun getCurrentFilters(): GameFilters {
         return GameFilters(
             platforms = _selectedPlatforms.value.toList(),
@@ -202,20 +181,14 @@ class FiltersViewModel @Inject constructor(
         )
     }
 
-    /**
-     * Verifica si hay filtros aplicados
-     */
     fun hasActiveFilters(): Boolean {
         return _selectedPlatforms.value.isNotEmpty() ||
                 _selectedGenres.value.isNotEmpty() ||
                 _selectedPublishers.value.isNotEmpty() ||
                 _selectedStores.value.isNotEmpty() ||
-                _selectedOrdering.value != OrderingType.ADDED_DESC
+                _selectedOrdering.value != OrderingType.ADDED
     }
 
-    /**
-     * Convierte excepciones en mensajes de error legibles
-     */
     private fun getErrorMessage(throwable: Throwable): String {
         return when {
             throwable.message?.contains("network", ignoreCase = true) == true ||

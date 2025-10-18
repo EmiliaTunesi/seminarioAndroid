@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "ar.edu.unicen.seminario"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "ar.edu.unicen.seminario"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -60,13 +60,14 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    // Hilt - Dependencias explícitas para resolver el error
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
-
-    // Hilt - Referencias del version catalog (mantener para consistencia)
+    // Hilt
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
+
+    // Paging 3
+    implementation("androidx.paging:paging-runtime:3.2.1")
+    // SwipeRefreshLayout
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

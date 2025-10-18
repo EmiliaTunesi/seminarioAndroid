@@ -52,8 +52,19 @@ class PublisherFilterAdapter(
 
         fun bind(publisher: Publisher, isSelected: Boolean) {
             binding.apply {
-                checkbox.text = publisher.name
+                // Quitar el listener antes de modificar el estado
+                checkbox.setOnCheckedChangeListener(null)
+                tvFilterName.text = publisher.name
                 checkbox.isChecked = isSelected
+                checkbox.text = ""
+                // Volver a setear el listener
+                checkbox.setOnCheckedChangeListener { _, _ ->
+                    val position = bindingAdapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val publisher = getItem(position)
+                        onPublisherToggle(publisher.id)
+                    }
+                }
             }
         }
     }

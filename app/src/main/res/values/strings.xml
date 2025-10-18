@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">Seminario</string>
+    <string name="app_name">Seminario2</string>
+
+    <!-- Descripciones para accesibilidad -->
+    <string name="game_image_description">Imagen del juego</string>
+
+    <!-- Título específico de la pantalla de filtros -->
+    <string name="filters_title">Filtros</string>
 </resources>

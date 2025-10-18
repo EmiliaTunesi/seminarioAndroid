@@ -1,34 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:gravity="center"
-    android:padding="@dimen/margen_mediano">
+    android:orientation="vertical"
+    android:padding="@dimen/padding_large">
 
     <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margen_normal"
-        android:indeterminateTint="@color/primary_blue" />
+        android:id="@+id/progressBar"
+        android:layout_width="@dimen/loading_indicator_size"
+        android:layout_height="@dimen/loading_indicator_size"
+        android:layout_marginBottom="@dimen/margin_small"
+        android:contentDescription="@string/content_description_loading" />
 
     <TextView
-        android:id="@+id/tv_error_message"
+        android:id="@+id/tvLoadingMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margen_normal"
+        android:text="@string/loading_data"
+        android:textAppearance="@style/TextAppearance.Core.Body"
+        android:textColor="@color/text_secondary" />
+
+    <TextView
+        android:id="@+id/tvErrorMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_small"
+        android:layout_marginBottom="@dimen/margin_small"
         android:gravity="center"
-        android:textAppearance="@style/TextAppearance.Seminario.Subtitulo"
+        android:textAppearance="@style/TextAppearance.Core.Body"
+        android:textColor="@color/error"
         android:visibility="gone" />
 
     <Button
-        android:id="@+id/btn_retry"
-        style="@style/Widget.Seminario.Button.Secondary"
+        android:id="@+id/btnRetry"
+        style="@style/Widget.Core.Button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/reintentar"
+        android:text="@string/retry"
         android:visibility="gone" />
 
 </LinearLayout>

@@ -32,7 +32,7 @@ class GameRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 20,
-                enablePlaceholders = false, // Deshabilitado para mejor UX
+                enablePlaceholders = false,
                 prefetchDistance = 3, // Precargar 3 elementos antes del final
                 initialLoadSize = 20, // Primera carga del mismo tamaño que las siguientes
                 maxSize = PagingConfig.MAX_SIZE_UNBOUNDED // Sin límite de elementos en memoria
@@ -53,7 +53,7 @@ class GameRepository @Inject constructor(
      */
     suspend fun getGameDetail(gameId: Int): Result<GameDetail> {
         return try {
-            val response = apiService.getGameDetail(apiKey, gameId)
+            val response = apiService.getGameDetail(gameId, apiKey)
 
             if (response.isSuccessful) {
                 val gameDetailDto = response.body()
@@ -77,9 +77,9 @@ class GameRepository @Inject constructor(
     suspend fun getGenres(): Result<List<Genre>> {
         return try {
             val response = apiService.getGenres(apiKey)
-
             if (response.isSuccessful) {
                 val genresDto = response.body()?.results
+                android.util.Log.d("GameRepository", "Genres API response: $genresDto")
                 if (genresDto != null) {
                     val genres = mapper.mapToGenreList(genresDto)
                     Result.success(genres)
@@ -100,7 +100,7 @@ class GameRepository @Inject constructor(
     suspend fun getPlatforms(): Result<List<Platform>> {
         return try {
             val response = apiService.getPlatforms(apiKey)
-
+            android.util.Log.d("GameRepository", "Plataformas response: " + response.body()?.results?.size)
             if (response.isSuccessful) {
                 val platformsDto = response.body()?.results
                 if (platformsDto != null) {
@@ -123,9 +123,9 @@ class GameRepository @Inject constructor(
     suspend fun getPublishers(): Result<List<Publisher>> {
         return try {
             val response = apiService.getPublishers(apiKey)
-
             if (response.isSuccessful) {
                 val publishersDto = response.body()?.results
+                android.util.Log.d("GameRepository", "Publishers API response: $publishersDto")
                 if (publishersDto != null) {
                     val publishers = mapper.mapToPublisherList(publishersDto)
                     Result.success(publishers)
@@ -146,9 +146,9 @@ class GameRepository @Inject constructor(
     suspend fun getStores(): Result<List<Store>> {
         return try {
             val response = apiService.getStores(apiKey)
-
             if (response.isSuccessful) {
                 val storesDto = response.body()?.results
+                android.util.Log.d("GameRepository", "Stores API response: $storesDto")
                 if (storesDto != null) {
                     val stores = mapper.mapToStoreList(storesDto)
                     Result.success(stores)

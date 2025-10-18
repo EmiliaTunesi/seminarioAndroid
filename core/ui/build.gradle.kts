@@ -7,10 +7,11 @@ plugins {
 
 android {
     namespace = "ar.edu.unicen.seminario.core.ui"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
+        targetSdk = 34
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

@@ -15,47 +15,26 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
-/**
- * ViewModel que maneja el estado y la lógica de la pantalla de lista de juegos
- * Implementa Paging 3 con cachedIn() para optimizar el rendimiento
- */
 @HiltViewModel
 class GameListViewModel @Inject constructor(
     private val gameRepository: GameRepository
 ) : ViewModel() {
 
-    // Estado actual de los filtros aplicados
-    private val _currentFilters = MutableStateFlow(GameFilters())
-    val currentFilters: StateFlow<GameFilters> = _currentFilters.asStateFlow()
-
-    // Flujo de datos paginados que se actualiza automáticamente cuando cambian los filtros
-    // cachedIn() es crucial para Paging 3 según la documentación oficial
-    val gamesFlow: Flow<PagingData<Game>> = _currentFilters
-        .flatMapLatest { filters ->
-            gameRepository.getGamesStream(filters)
-        }
-        .cachedIn(viewModelScope)
-
-    /**
-     * Aplica nuevos filtros a la búsqueda de juegos
-     * Esto provocará que se recargue la lista desde la página 1
-     */
-    fun applyFilters(filters: GameFilters) {
-        _currentFilters.value = filters
+    private val _filters = MutableStateFlow(GameFilters())
+    val filters: StateFlow<GameFilters> = _filters.asStateFlow()
+    val gamesFlow = filters.flatMapLatest { filters ->
+        gameRepository.getGamesStream(filters)
+    }.cachedIn(viewModelScope)
+    fun applyFilters(newFilters: GameFilters) {
+        _filters.value = newFilters
     }
 
-    /**
-     * Limpia todos los filtros y vuelve al estado inicial
-     */
     fun clearFilters() {
-        _currentFilters.value = GameFilters()
+        _filters.value = GameFilters()
     }
 
-    /**
-     * Verifica si hay filtros aplicados actualmente
-     */
     fun hasActiveFilters(): Boolean {
-        val filters = _currentFilters.value
+        val filters = _filters.value
         return filters.platforms.isNotEmpty() ||
                 filters.genres.isNotEmpty() ||
                 filters.publishers.isNotEmpty() ||

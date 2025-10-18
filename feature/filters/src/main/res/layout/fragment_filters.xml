@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light"
-    tools:context="ar.edu.unicen.seminario.feature.filters.presentation.FiltersFragment">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,154 +14,231 @@
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
-            style="@style/Widget.Seminario.Toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="@dimen/elevacion_card"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="@string/filtros" />
+            android:layout_height="wrap_content"
+            android:background="@color/primary_blue"
+            app:title="@string/filters_title"
+            app:titleTextColor="@color/white"
+            app:navigationIcon="@drawable/ic_back"
+            app:navigationIconTint="@color/white" />
 
-        <!-- Estado de carga -->
         <ProgressBar
-            android:id="@+id/progress_bar"
+            android:id="@+id/progressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/margen_grande"
-            android:indeterminateTint="@color/primary_blue"
+            android:layout_margin="@dimen/margin_large"
             android:visibility="gone" />
 
-        <!-- Estado de error -->
-        <include
-            android:id="@+id/error_layout"
-            layout="@layout/layout_error_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone" />
-
-        <!-- Contenido principal -->
         <LinearLayout
-            android:id="@+id/content_layout"
+            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true"
             android:orientation="vertical"
-            android:padding="@dimen/margen_mediano"
-            android:visibility="gone">
+            android:padding="@dimen/padding_large">
 
-            <!-- Sección de Ordenamiento -->
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_normal"
-                android:text="@string/ordenar_por"
-                android:textAppearance="@style/TextAppearance.Seminario.Titulo" />
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Ordenar por"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                android:textSize="@dimen/text_size_large" />
 
             <Spinner
-                android:id="@+id/spinner_ordering"
+                android:id="@+id/spinnerOrdering"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/altura_boton"
-                android:layout_marginBottom="@dimen/margen_grande" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large" />
 
-            <!-- Sección de Plataformas -->
+            <!-- Sección Plataformas -->
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Plataformas"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                android:textSize="@dimen/text_size_large" />
+            <ProgressBar
+                android:id="@+id/progressBarPlatforms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_normal"
-                android:text="@string/seleccionar_plataforma"
-                android:textAppearance="@style/TextAppearance.Seminario.Titulo" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_platforms"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvErrorPlatforms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_grande"
-                android:maxHeight="200dp"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_filter_checkbox" />
-
-            <!-- Sección de Géneros -->
-            <TextView
+                android:textColor="@color/error_red"
+                android:visibility="gone"
+                android:text="Error al cargar plataformas" />
+            <Button
+                android:id="@+id/btnRetryPlatforms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_normal"
-                android:text="@string/seleccionar_genero"
-                android:textAppearance="@style/TextAppearance.Seminario.Titulo" />
-
+                android:text="Reintentar"
+                android:visibility="gone" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_genres"
+                android:id="@+id/rvPlatforms"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_grande"
-                android:maxHeight="200dp"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
                 tools:listitem="@layout/item_filter_checkbox" />
 
-            <!-- Sección de Publishers -->
+            <!-- Sección Géneros -->
             <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Géneros"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                android:textSize="@dimen/text_size_large" />
+            <ProgressBar
+                android:id="@+id/progressBarGenres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_normal"
-                android:text="@string/seleccionar_publisher"
-                android:textAppearance="@style/TextAppearance.Seminario.Titulo" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_publishers"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvErrorGenres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_grande"
-                android:maxHeight="200dp"
-                android:nestedScrollingEnabled="false"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:listitem="@layout/item_filter_checkbox" />
-
-            <!-- Sección de Tiendas -->
-            <TextView
+                android:textColor="@color/error_red"
+                android:visibility="gone"
+                android:text="Error al cargar géneros" />
+            <Button
+                android:id="@+id/btnRetryGenres"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_normal"
-                android:text="@string/seleccionar_store"
-                android:textAppearance="@style/TextAppearance.Seminario.Titulo" />
-
+                android:text="Reintentar"
+                android:visibility="gone" />
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/rv_stores"
+                android:id="@+id/rvGenres"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/margen_grande"
-                android:maxHeight="200dp"
+                android:layout_marginBottom="@dimen/margin_large"
                 android:nestedScrollingEnabled="false"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="5"
                 tools:listitem="@layout/item_filter_checkbox" />
 
-            <!-- Botones de acción -->
-            <LinearLayout
+            <!-- Sección Publishers -->
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margen_mediano"
-                android:orientation="horizontal">
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Publishers"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                android:textSize="@dimen/text_size_large" />
+            <ProgressBar
+                android:id="@+id/progressBarPublishers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvErrorPublishers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/error_red"
+                android:visibility="gone"
+                android:text="Error al cargar publishers" />
+            <Button
+                android:id="@+id/btnRetryPublishers"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reintentar"
+                android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPublishers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="4"
+                tools:listitem="@layout/item_filter_checkbox" />
 
-                <Button
-                    android:id="@+id/btn_clear_filters"
-                    style="@style/Widget.Seminario.Button.Secondary"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="@dimen/margen_normal"
-                    android:layout_weight="1"
-                    android:text="@string/limpiar_filtros" />
-
-                <Button
-                    android:id="@+id/btn_apply_filters"
-                    style="@style/Widget.Seminario.Button"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/aplicar_filtros" />
-
-            </LinearLayout>
+            <!-- Sección Tiendas -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_large"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:text="Tiendas"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                android:textSize="@dimen/text_size_large" />
+            <ProgressBar
+                android:id="@+id/progressBarStores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+            <TextView
+                android:id="@+id/tvErrorStores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/error_red"
+                android:visibility="gone"
+                android:text="Error al cargar tiendas" />
+            <Button
+                android:id="@+id/btnRetryStores"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Reintentar"
+                android:visibility="gone" />
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvStores"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_large"
+                android:nestedScrollingEnabled="false"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_filter_checkbox" />
 
         </LinearLayout>
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="@dimen/padding_large">
 
-</ScrollView>
+            <Button
+                android:id="@+id/btnClearFilters"
+                style="@style/Widget.Core.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/margin_small"
+                android:layout_weight="1"
+                android:text="@string/clear_filters"
+                android:backgroundTint="@color/text_secondary" />
+
+            <Button
+                android:id="@+id/btnApplyFilters"
+                style="@style/Widget.Core.Button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_small"
+                android:layout_weight="1"
+                android:text="@string/apply_filters" />
+
+        </LinearLayout>
+
+        <include
+            android:id="@+id/errorLayout"
+            layout="@layout/layout_error_state"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

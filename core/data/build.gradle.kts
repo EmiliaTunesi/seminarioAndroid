@@ -8,13 +8,14 @@ plugins {
 
 android {
     namespace = "ar.edu.unicen.seminario.core.data"
-    compileSdk = 36
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 26
+        targetSdk = 34
 
         // Configuración de la API Key desde local.properties
-        buildConfigField("String", "API_KEY", "\"${project.findProperty("RAWG_API_KEY") ?: ""}\"")
+        buildConfigField("String", "API_KEY", "\"9438d7f7b357432a9aec4dea4179fed2\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")

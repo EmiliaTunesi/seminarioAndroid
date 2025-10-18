@@ -1,60 +1,59 @@
-# Explorador de Videojuegos - App Android
+# Seminario: Introducción al Desarrollo Mobile Android
 
-Una aplicación Android multi-módulo para explorar videojuegos usando la API de RAWG.IO.
+## Alumna
+María Emilia Tunesi 
+41.146.697
+TUDAI -UNICEN - Sede Tandil
 
-## 🎮 **Características**
+## Descripción
 
-- **Arquitectura Multi-Módulo** con separación clara de responsabilidades
-- **Lista paginada** de videojuegos con Paging 3
-- **Sistema de filtros** por plataformas, géneros, publishers y tiendas
-- **Detalles completos** de cada videojuego
-- **MVVM + Repository Pattern** en todos los módulos
-- **Inyección de dependencias** con Hilt
-- **Navigation Component** para navegación fluida
+* Este es un proyecto de aplicación nativa para Android que funciona como un explorador de videojuegos. 
+* Permite ver una lista de video juegos, filtrar y ver detalles sobre los diferentes juegos. 
+* Toda la información es consumida en tiempo real desde la API pública indicada por la cátedra. 
 
-## 🏗️ **Arquitectura**
 
-### Módulos Core:
-- `:core:ui` - Recursos compartidos (colores, strings, temas)
-- `:core:data` - Capa de datos (API, repositorios, mappers)
-- `:core:navigation` - Contratos de navegación
+## Características Principales
 
-### Módulos Feature:
-- `:feature:gamelist` - Lista principal con paginación
-- `:feature:filters` - Pantalla de filtros múltiples
-- `:feature:gamedetail` - Detalles específicos de juegos
+* **Lista de Juegos**: Navegación por catálogo de videojuegos con paginación automática.
+* **Filtros y Ordenamiento**: Búsqueda por plataformas, géneros, distribuidores y tiendas. Orden de los resultados por nombre, fecha de lanzamiento, antiguedad, entre otros. 
+* **Detalle Completo**: Haciendo tap en cualquier juego se puede ver su información detallada.
+* **Interfaz**: La UI siempre muestra estados de **carga** y **error** (con opción de reintento).
+* **Arquitectura**: Desarrollado con una arquitectura multi-módulo.
 
-## 🛠️ **Stack Tecnológico**
+### Estructura de Módulos
 
-- **Kotlin** con programación orientada a objetos
-- **Hilt** para inyección de dependencias
-- **Retrofit + Gson** para comunicación con API
-- **Paging 3** para listas infinitas
-- **Navigation Component** con Safe Args
-- **Coil** para carga de imágenes
-- **ViewBinding** para UI type-safe
-- **Coroutines + StateFlow** para asincronía
+El proyecto está organizado de la siguiente manera:
 
-## 🚀 **Configuración**
+* `:app`: El módulo principal y punto de entrada. Integra todas las funcionalidades.
+* `:core`: Módulos con lógica y recursos compartidos.
+    * `:core:data`: Capa de datos.
+    * `:core:ui`: Recursos de UI compartidos (temas, colores, estilos).
+    * `:core:navigation`: Contratos de navegación entre módulos.
+* `:feature`: Módulos que encapsulan cada funcionalidad de la aplicación.
+    * `:feature:gamelist`: Pantalla principal con la lista de juegos.
+    * `:feature:filters`: Pantalla de filtros.
+    * `:feature:gamedetail`: Pantalla de detalle de un juego.
 
-1. Clona el repositorio
-2. Configura tu API Key de RAWG.IO en `local.properties`:
-   ```
-   RAWG_API_KEY=tu_api_key_aqui
-   ```
-3. Sincroniza el proyecto con Gradle
-4. Ejecuta en emulador Pixel 4 con Android 13.0 (API 33)
+### Patrones de Diseño
 
-## 📱 **Requisitos**
+Dentro de cada módulo de funcionalidad se aplica el patrón **MVVM** junto con el **Patrón Repository**.
 
-- **minSdk:** 26 (Android 8.0)
-- **compileSdk:** 36
-- **targetSdk:** 36
+## Ejecución del Proyecto
 
-## 🎯 **API**
+Para compilar y ejecutar el proyecto, seguí estos pasos:
 
-Integrado con [RAWG.IO API](https://rawg.io/apidocs) para datos de videojuegos.
+### Prerrequisitos
 
-## 📄 **Licencia**
+* Versión "Iguana" o superior de Android Studio.
 
-Proyecto académico - TUDAI UNICEN
+### Pasos para Ejecutar el Proyecto
+
+1. Clonar el Repositorio desde Git
+
+2. Abrir y Sincronizar el Proyecto
+
+3. Configurar un Emulador (Pixel 4 - API 34)
+
+4. Ejecutar la Aplicación
+
+

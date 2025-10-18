@@ -2,89 +2,87 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/Widget.Seminario.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margen_normal"
+    android:layout_margin="@dimen/margin_small"
     android:clickable="true"
     android:focusable="true"
-    android:foreground="?attr/selectableItemBackground">
+    app:cardCornerRadius="@dimen/corner_radius_medium"
+    app:cardElevation="@dimen/card_elevation"
+    app:rippleColor="@color/primary_blue_light">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/margen_mediano">
+        android:orientation="horizontal"
+        android:padding="@dimen/padding_medium">
 
         <ImageView
-            android:id="@+id/iv_game_image"
-            android:layout_width="@dimen/ancho_imagen_juego"
-            android:layout_height="@dimen/altura_item_juego"
-            android:background="@color/shimmer_base"
+            android:id="@+id/ivGameImage"
+            android:layout_width="@dimen/game_image_width"
+            android:layout_height="@dimen/game_image_height"
+            android:layout_marginEnd="@dimen/margin_medium"
             android:contentDescription="Imagen del juego"
             android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@drawable/ic_error" />
+            tools:src="@tools:sample/backgrounds/scenic" />
 
-        <TextView
-            android:id="@+id/tv_game_name"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margen_mediano"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.Seminario.Titulo"
-            android:textSize="@dimen/texto_mediano"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_game_image"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="The Witcher 3: Wild Hunt" />
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv_game_rating"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margen_mediano"
-            android:layout_marginTop="@dimen/margen_pequeno"
-            android:background="@drawable/bg_rating"
-            android:paddingHorizontal="@dimen/margen_normal"
-            android:paddingVertical="@dimen/margen_pequeno"
-            android:textAppearance="@style/TextAppearance.Seminario.Cuerpo"
-            android:textColor="@color/white"
-            android:textSize="@dimen/texto_pequeno"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@id/iv_game_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_game_name"
-            tools:text="★ 4.5" />
+            <TextView
+                android:id="@+id/tvGameName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Core.Headline"
+                tools:text="The Witcher 3: Wild Hunt" />
 
-        <TextView
-            android:id="@+id/tv_game_genres"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margen_mediano"
-            android:layout_marginTop="@dimen/margen_pequeno"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:textAppearance="@style/TextAppearance.Seminario.Subtitulo"
-            android:textSize="@dimen/texto_pequeno"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_game_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_game_rating"
-            tools:text="RPG, Action, Adventure" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/margin_small"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_game_release_date"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margen_mediano"
-            android:layout_marginTop="@dimen/margen_pequeno"
-            android:textAppearance="@style/TextAppearance.Seminario.Subtitulo"
-            android:textSize="@dimen/texto_pequeno"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/iv_game_image"
-            app:layout_constraintTop_toBottomOf="@id/tv_game_genres"
-            tools:text="Lanzamiento: 2015-05-19" />
+                <TextView
+                    android:id="@+id/tvGameRating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_rating"
+                    android:textAppearance="@style/TextAppearance.Core.Caption"
+                    android:textColor="@color/white"
+                    android:textStyle="bold"
+                    tools:text="★ 4.5" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tvGameReleaseDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Core.Caption"
+                    tools:text="2015-05-19" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvGameGenres"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAppearance="@style/TextAppearance.Core.Caption"
+                tools:text="RPG, Action, Adventure" />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>
